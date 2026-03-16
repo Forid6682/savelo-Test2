@@ -23,6 +23,77 @@
     </script>
 
     <style>
+        <script>
+    lucide.createIcons();
+    document.getElementById('menuBtn').addEventListener('click', function() {
+        document.getElementById('sidebar').classList.remove('sidebar-closed');
+        document.getElementById('sidebar').classList.add('sidebar-open');
+    });
+    document.getElementById('closeBtn').addEventListener('click', function() {
+        document.getElementById('sidebar').classList.add('sidebar-closed');
+        document.getElementById('sidebar').classList.remove('sidebar-open');
+    });
+    function showSection(sectionId) {
+        document.querySelectorAll('main section').forEach(function(s) {
+            s.classList.remove('active-section');
+            s.classList.add('hidden-section');
+        });
+        document.getElementById(sectionId).classList.remove('hidden-section');
+        document.getElementById(sectionId).classList.add('active-section');
+        document.getElementById('sidebar').classList.add('sidebar-closed');
+        window.scrollTo(0, 0);
+    }
+    function toggleFaq(num) {
+        var faq = document.getElementById('fq-' + num);
+        var icon = document.getElementById('fi-' + num);
+        faq.classList.toggle('hidden');
+        icon.style.transform = faq.classList.contains('hidden') ? 'rotate(0deg)' : 'rotate(180deg)';
+    }
+    function regNextStep(step) {
+        var cardId = document.getElementById('regCardId').value;
+        var cardType = document.getElementById('regCardType').value;
+        var name = document.getElementById('regName').value;
+        var phone = document.getElementById('regPhone').value;
+        var trxId = document.getElementById('regTrxId').value;
+        if (step === 1 && (!cardId || !cardType)) { alert('সব তথ্য ভরুন'); return; }
+        if (step === 2 && (!name || !phone)) { alert('নাম এবং ফোন নম্বর দিন'); return; }
+        if (step === 3 && !trxId) { alert('Transaction ID দিন'); return; }
+        document.getElementById('regStep' + step).classList.add('hidden-section');
+        document.getElementById('regStep' + (step + 1)).classList.remove('hidden-section');
+    }
+    function regPrevStep(step) {
+        document.getElementById('regStep' + step).classList.add('hidden-section');
+        document.getElementById('regStep' + (step - 1)).classList.remove('hidden-section');
+    }
+    function submitRegistration() {
+        var name = document.getElementById('regName').value;
+        if (!name) { alert('নাম দিন'); return; }
+        document.getElementById('regStep3').classList.add('hidden-section');
+        document.getElementById('regSuccess').classList.remove('hidden-section');
+    }
+    function agNextStep(step) {
+        if (step === 1) {
+            var shopName = document.getElementById('agShopName').value;
+            if (!shopName) { alert('দোকানের নাম দিন'); return; }
+            document.getElementById('agRegStep1').classList.add('hidden-section');
+            document.getElementById('agRegStep2').classList.remove('hidden-section');
+        } else if (step === 2) {
+            document.getElementById('agRegStep2').classList.add('hidden-section');
+            document.getElementById('agSuccess').classList.remove('hidden-section');
+        }
+    }
+    function agPrevStep(step) {
+        document.getElementById('agRegStep' + step).classList.add('hidden-section');
+        document.getElementById('agRegStep' + (step - 1)).classList.remove('hidden-section');
+    }
+    function selectAgRate(rate) {
+        document.getElementById('agRateDisplay').textContent = rate + '%';
+        document.querySelectorAll('.ag-rate-btn').forEach(function(btn) {
+            btn.classList.remove('border-yellow-400/50', 'bg-yellow-400/10');
+        });
+        event.target.classList.add('border-yellow-400/50', 'bg-yellow-400/10');
+    }
+</script>
         body {
             background: radial-gradient(circle at top right, #1E3A8A 0%, #020617 100%);
             min-height: 100vh;
